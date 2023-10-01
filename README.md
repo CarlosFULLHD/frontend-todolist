@@ -1,7 +1,30 @@
-# Vue 3 + Vite
+# Frontend to-do-list
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Requerimientos
 
-## Recommended IDE Setup
+Para correr este proyecto debe tener instalado:
+
+- node js
+- npm
+
+## Para compilar el proyecto
+
+Asegurese de estar en la carpeta del package.json
+
+Es decir ejecutar el proyecto desde su IDE preferido en la carpeta 'frontend-todolist'
+
+### Instale las dependencias
+
+```
+npm install
+```
+
+## Ejecución
+
+```
+npm run dev
+```
+
+IDE Recomendado:
 
 - [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
