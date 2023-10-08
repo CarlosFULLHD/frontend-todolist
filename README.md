@@ -22,7 +22,7 @@ npm install
 ## Ejecución
 
 ```
-npm run dev
+npm run start -- --port 9000
 ```
 
 IDE Recomendado:
