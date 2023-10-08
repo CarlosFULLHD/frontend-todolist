@@ -1,6 +1,9 @@
 <template>
   <div>
     <h1>To Do List</h1>
+    <router-link :to="{ name: 'Login' }">
+      <button @click="logout">Cerrar Sesión</button>
+    </router-link>
     <div v-if="tasks.length">
       <div v-for="task in tasks" :key="task.id">
         <div
@@ -95,6 +98,23 @@ export default {
         })
         .catch((error) => {
           console.error("Error al actualizar la tarea:", error);
+        });
+    },
+    logout() {
+      // Realiza una solicitud al backend para cerrar sesión
+      fetch("http://localhost:8080/api/v1/logout", {
+        method: "POST",
+        // Puedes agregar cualquier encabezado necesario
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Network response was not ok");
+          }
+          // Redirige al usuario a la página de inicio de sesión o a donde prefieras
+          this.$router.push("/login");
+        })
+        .catch((error) => {
+          console.error("Error al cerrar sesión:", error);
         });
     },
   },

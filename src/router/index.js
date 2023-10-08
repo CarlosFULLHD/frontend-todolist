@@ -16,6 +16,7 @@ const routes = [
     name: "Tasks",
     component: Tasks,
     props: true,
+    meta: { requiresAuth: true },
   },
   {
     path: "/login",

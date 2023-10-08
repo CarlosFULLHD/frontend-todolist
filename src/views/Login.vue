@@ -24,12 +24,6 @@
       </div>
 
       <button type="submit" class="login-button">Iniciar Sesión</button>
-      <div v-if="error" class="modal">
-        <div class="modal-content">
-          <span class="close" @click="error = null">&times;</span>
-          <p>{{ error }}</p>
-        </div>
-      </div>
     </form>
   </div>
 </template>
@@ -40,9 +34,11 @@ export default {
     return {
       loginData: {
         user: "",
-        password: "",
+        password_hash: "", // Cambiado de "password" a "password_hash"
       },
       error: null,
+      success: false,
+      successMessage: "",
     };
   },
   methods: {
@@ -57,12 +53,11 @@ export default {
       })
         .then((response) => response.json())
         .then((data) => {
-          // Redireccionar después del inicio de sesión (si es exitoso)
           this.$router.push("/Tasks");
-          // Mostrar mensaje de éxito (puedes personalizar según tu respuesta del servidor)
-          console.log(data);
         })
         .catch((error) => {
+          this.loginData.user = "";
+          this.loginData.password_hash = "";
           // Mostrar mensaje de error en el modal
           this.error = "Error al iniciar sesión. Verifica tus credenciales.";
           console.error("Error al iniciar sesión:", error);
