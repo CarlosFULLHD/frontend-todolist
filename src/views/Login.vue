@@ -17,7 +17,7 @@
         <input
           type="password"
           id="password"
-          v-model="loginData.password"
+          v-model="loginData.password_hash"
           placeholder="Contraseña"
           required
         />
@@ -58,7 +58,7 @@ export default {
         .then((response) => response.json())
         .then((data) => {
           // Redireccionar después del inicio de sesión (si es exitoso)
-          this.$router.push("/");
+          this.$router.push("/Tasks");
           // Mostrar mensaje de éxito (puedes personalizar según tu respuesta del servidor)
           console.log(data);
         })

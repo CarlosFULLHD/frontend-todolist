@@ -1,30 +1,25 @@
 <template>
-  <div v-if="job">
-    <h1>{{ job.title }}</h1>
-    <p>{{ job.details }}</p>
-  </div>
+  <div v-if="task">//Consumir api</div>
   <div v-else>
-    <p>Loading job details...</p>
+    <p>Loading task details...</p>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['id'],
+  props: ["taskId"],
   data() {
     return {
-      job: null
-    }
+      data: null,
+    };
   },
   mounted() {
-    fetch('http://localhost:3000/jobs/' + this.id)
-      .then(res => res.json())
-      .then(data => this.job = data)
-      .catch(err => console.log(err.message))
-  }
-}
+    fetch("http://localhost:8080/api/v1/tasks/" + this.taskId)
+      .then((res) => res.json())
+      .then((data) => (this.job = data))
+      .catch((err) => console.log(err.message));
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

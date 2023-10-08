@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import NotFound from "../views/NotFound.vue";
 import Login from "../views/Login.vue";
 import Tasks from "../views/tasks/Tasks.vue";
+import EditTasks from "../views/tasks/TasksEdit.vue";
 
 const routes = [
   {
@@ -13,11 +14,18 @@ const routes = [
     path: "/Tasks",
     name: "Tasks",
     component: Tasks,
+    props: true,
   },
   {
     path: "/login",
     name: "Login",
     component: Login,
+  },
+  {
+    path: "/EditTasks/:taskId",
+    name: "EditTasks",
+    component: EditTasks,
+    props: true,
   },
   // {
   //   path: "/jobs/:id",
