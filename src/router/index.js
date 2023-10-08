@@ -3,7 +3,8 @@ import NotFound from "../views/NotFound.vue";
 import Login from "../views/Login.vue";
 import Tasks from "../views/tasks/Tasks.vue";
 import EditTasks from "../views/tasks/TasksEdit.vue";
-
+import Labels from "../views/labels/Labels.vue";
+import EditLabels from "../views/labels/LabelsEdit.vue";
 const routes = [
   {
     path: "/",
@@ -25,6 +26,18 @@ const routes = [
     path: "/EditTasks/:taskId",
     name: "EditTasks",
     component: EditTasks,
+    props: true,
+  },
+  {
+    path: "/Labels",
+    name: "Labels",
+    component: Labels,
+    props: true,
+  },
+  {
+    path: "/EditLabels/:taskId",
+    name: "EditLabels",
+    component: EditLabels,
     props: true,
   },
   // {
