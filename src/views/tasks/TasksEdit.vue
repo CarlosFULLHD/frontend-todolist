@@ -1,6 +1,6 @@
 <template>
   <div v-if="task">
-    <h1>Editar Tarea {{ taskId }}</h1>
+    <h1>{{ taskName }}</h1>
     <form @submit.prevent="updateTask">
       <div class="form-group">
         <label for="taskName">Tarea</label>
@@ -42,7 +42,12 @@
           <button type="button">Editar Etiquetas</button>
         </router-link>
       </div>
-      <button type="submit">Save</button>
+      <router-link to="/Tasks">
+        <button type="submit" v-if="!isNewTask" @click="updateTask">
+          Guardar
+        </button>
+        <button type="button" v-else @click="createTask">Crear Tarea</button>
+      </router-link>
       <router-link to="/Tasks">
         <button type="button">Cancelar</button>
       </router-link>
@@ -58,12 +63,25 @@ export default {
   props: ["taskId"],
   data() {
     return {
-      task: null,
+      task: {
+        taskName: "",
+        dueDate: "",
+        status: false,
+        completionTime: "",
+        label: { labelId: "" },
+      },
       labels: [],
+      isNewTask: false,
     };
   },
   mounted() {
-    this.fetchTask();
+    if (this.taskId === "new") {
+      // Si el taskId es "new", estamos creando una nueva tarea
+      this.isNewTask = true;
+    } else {
+      // De lo contrario, estamos editando una tarea existente
+      this.fetchTask();
+    }
     this.fetchLabels();
   },
   methods: {
@@ -134,6 +152,41 @@ export default {
         }
       } catch (error) {
         console.error("Error al actualizar la tarea:", error);
+        // Manejar errores de red u otros errores
+      }
+    },
+    async createTask() {
+      try {
+        // Crear un objeto con los datos de la nueva tarea
+        const newTask = {
+          taskName: this.task.taskName,
+          dueDate: this.task.dueDate,
+          status: this.task.status,
+          completionTime: this.task.completionTime,
+          labelId: this.task.label.labelId,
+        };
+
+        // Realizar la solicitud POST al servidor
+        const response = await fetch("http://localhost:8080/api/v1/tasks/", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newTask),
+        });
+
+        if (!response.ok) {
+          // Manejar el caso en que la respuesta del servidor no sea exitosa
+          console.error("Error al crear la tarea:", response.statusText);
+          // Puedes mostrar un mensaje de error al usuario si lo deseas
+        } else {
+          // Manejar el caso en que la respuesta del servidor sea exitosa
+          console.log("Tarea creada con éxito");
+          // Puedes redirigir al usuario a la página de tareas o realizar otras acciones
+        }
+      } catch (error) {
+        console.error("Error al crear la tarea:", error);
         // Manejar errores de red u otros errores
       }
     },

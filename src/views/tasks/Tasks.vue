@@ -10,7 +10,12 @@
           <div class="task-container">
             <!-- Div para mostrar el color del label -->
             <!-- Radio button para el estado de la tarea -->
-            <input type="radio" :checked="task.status" disabled />
+            <input
+              type="radio"
+              :checked="task.status"
+              @click="toggleTaskStatus(task)"
+              class="custom-radio"
+            />
             <!-- Mostrar el nombre de la tarea -->
             <h2>{{ task.taskName }}</h2>
             <!-- Mostrar la fecha de vencimiento -->
@@ -28,6 +33,9 @@
           </div>
         </div>
       </div>
+      <router-link :to="{ name: 'EditTasks', params: { taskId: 'new' } }">
+        <button>Añadir Nueva Tarea</button>
+      </router-link>
     </div>
     <div v-else>
       <p>Loading tasks...</p>
@@ -59,10 +67,47 @@ export default {
         console.error("Error fetching tasks:", error);
       });
   },
+  methods: {
+    toggleTaskStatus(task) {
+      // Cambia el estado de la tarea localmente
+      task.status = !task.status;
+
+      // Envía una solicitud PUT al backend para actualizar el estado de la tarea
+      fetch(`http://localhost:8080/api/v1/tasks/${task.taskId}`, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          taskName: task.taskName,
+          dueDate: task.dueDate,
+          status: task.status,
+          completionTime: task.completionTime,
+          labelId: task.label.labelId,
+        }),
+      })
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error("Network response was not ok");
+          }
+          console.log("Tarea actualizada con éxito.");
+        })
+        .catch((error) => {
+          console.error("Error al actualizar la tarea:", error);
+        });
+    },
+  },
 };
 </script>
 
 <style>
+.custom-radio {
+  width: 20px; /* Ajusta el ancho deseado */
+  height: 20px; /* Ajusta la altura deseada */
+  margin-right: 10px; /* Espacio entre el radio button y el texto */
+  /* Otros estilos personalizados */
+}
 .task-container {
   padding: 15px;
   align-content: center;

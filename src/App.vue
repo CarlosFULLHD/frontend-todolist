@@ -1,9 +1,4 @@
 <template>
-  <div id="nav">
-    <router-link :to="{ name: 'Tasks' }">Tasks</router-link>
-    <router-link :to="{ name: 'Login' }">Login</router-link>
-  </div>
-
   <router-view />
 </template>
 
